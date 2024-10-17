@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Text, View } from "react-native";
-import Navbar from "./components/Navbar";
-import CountryDataFetcher from "./components/CountryDataFetcher";
+import Navbar from "./components/navbar";
+import CountryDataFetcher from "./components/api/CountryDataFetcher";
 
 interface CountryData {
   name: string;
