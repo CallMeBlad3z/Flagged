@@ -1,36 +1,23 @@
 {
   "expo": {
-    "name": "globePal",
-    "slug": "globePal",
+    "name": "flagged",
+    "slug": "flagged",
     "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
-    "userInterfaceStyle": "automatic",
-    "splash": {
-      "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
-    },
-    "web": {
-      "bundler": "metro",
-      "output": "static",
-      "favicon": "./assets/images/favicon.png"
-    },
-    "plugins": [
-      "expo-router"
+    "sdkVersion": "51.0.0",
+    "platforms": [
+      "ios",
+      "android"
     ],
-    "experiments": {
-      "typedRoutes": true
+    "plugins": [
+      [
+        "@rnmapbox/maps",
+        {
+          "RNMapboxMapsImpl": "mapbox"
+        }
+      ]
+    ],
+    "android": {
+      "package": "com.anonymous.flagged"
     }
   }
 }
