@@ -1,30 +1,33 @@
-import { useEffect } from "react";
+// app/components/api/CountryDataFetcher.tsx
 
 interface CountryData {
   name: string;
   code: string;
+  continent: string;
 }
 
-interface CountryDataFetcherProps {
-  onDataFetched: (data: CountryData[]) => void;
-}
+const CountryDataFetcher = async (): Promise<CountryData[]> => {
+  try {
+    const ipAddress = '192.168.0.170';
+    const response = await fetch(`http://${ipAddress}:3000/countries`);
+    const data = await response.json();
 
-function CountryDataFetcher({ onDataFetched }: CountryDataFetcherProps) {
-  useEffect(() => {
-    fetch("http://localhost:3000/world-bank/countries")
-      .then(response => response.json())
-      .then(data => {
-        console.log("API Response:", data);
-        if (Array.isArray(data)) {
-          onDataFetched(data);
-        } else {
-          console.error("Unexpected response format:", data);
-        }
-      })
-      .catch(error => console.error("Error fetching data:", error));
-  }, [onDataFetched]);
-
-  return null;
-}
+    if (Array.isArray(data)) {
+      // Map the API data to include continent
+      const countries = data.map((country: any) => ({
+        name: country.name,
+        code: country.code,
+        continent: country.continent, // Ensure the API returns this
+      }));
+      return countries;
+    } else {
+      console.error('Unexpected response format:', data);
+      return [];
+    }
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    return [];
+  }
+};
 
 export default CountryDataFetcher;
