@@ -1,12 +1,14 @@
+// app/components/api/SelectedCountriesContext.tsx
+
 import { createContext, useState, useContext, useEffect, ReactNode } from 'react';
 import * as FileSystem from 'expo-file-system';
 
 interface SelectedCountriesContextProps {
   selectedCountries: string[];
   setSelectedCountries: React.Dispatch<React.SetStateAction<string[]>>;
+  savedSelectedCountries: string[];
   saveSelectedCountries: () => Promise<void>;
 }
-
 
 const SelectedCountriesContext = createContext<SelectedCountriesContextProps | undefined>(undefined);
 
@@ -18,58 +20,44 @@ const selectedCountriesFilePath = `${FileSystem.documentDirectory}selectedCountr
 
 export const SelectedCountriesProvider = ({ children }: SelectedCountriesProviderProps) => {
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
+  const [savedSelectedCountries, setSavedSelectedCountries] = useState<string[]>([]);
 
-  // Load selected countries from file on mount
+  // Load saved selected countries from file on mount
   useEffect(() => {
-    const loadSelectedCountries = async () => {
+    const loadSavedSelectedCountries = async () => {
       try {
         const fileInfo = await FileSystem.getInfoAsync(selectedCountriesFilePath);
         if (fileInfo.exists) {
           const fileContents = await FileSystem.readAsStringAsync(selectedCountriesFilePath);
           const storedCountries = JSON.parse(fileContents);
-          setSelectedCountries(storedCountries);
+          setSavedSelectedCountries(storedCountries);
         }
       } catch (error) {
-        console.error('Error reading selected countries from file:', error);
+        console.error('Error reading saved selected countries from file:', error);
       }
     };
 
-    loadSelectedCountries();
+    loadSavedSelectedCountries();
   }, []);
 
-  // Remove the automatic save effect
-  // useEffect(() => {
-  //   const saveSelectedCountries = async () => {
-  //     try {
-  //       await FileSystem.writeAsStringAsync(
-  //         selectedCountriesFilePath,
-  //         JSON.stringify(selectedCountries)
-  //       );
-  //     } catch (error) {
-  //       console.error('Error saving selected countries to file:', error);
-  //     }
-  //   };
-  //   saveSelectedCountries();
-  // }, [selectedCountries]);
-
-  // Add a function to save selected countries
-// Add a function to save selected countries
-const saveSelectedCountries = async () => {
-  try {
-    await FileSystem.writeAsStringAsync(
-      selectedCountriesFilePath,
-      JSON.stringify(selectedCountries)
-    );
-    console.log('Selected countries saved.');
-    console.log('Saved countries:', selectedCountries);
-  } catch (error) {
-    console.error('Error saving selected countries to file:', error);
-  }
-};
+  // Function to save selected countries
+  const saveSelectedCountries = async () => {
+    try {
+      await FileSystem.writeAsStringAsync(
+        selectedCountriesFilePath,
+        JSON.stringify(selectedCountries)
+      );
+      // Update the savedSelectedCountries state
+      setSavedSelectedCountries(selectedCountries);
+      console.log('Selected countries saved.');
+    } catch (error) {
+      console.error('Error saving selected countries to file:', error);
+    }
+  };
 
   return (
     <SelectedCountriesContext.Provider
-      value={{ selectedCountries, setSelectedCountries, saveSelectedCountries }}
+      value={{ selectedCountries, setSelectedCountries, savedSelectedCountries, saveSelectedCountries }}
     >
       {children}
     </SelectedCountriesContext.Provider>
