@@ -15,7 +15,7 @@ interface CountryData {
 
 export default function Index() {
   const [data, setData] = useState<CountryData[]>([]);
-  const { selectedCountries } = useSelectedCountries();
+  const { savedSelectedCountries } = useSelectedCountries();
 
   // Fetch the country data when the component mounts
   useEffect(() => {
@@ -31,11 +31,11 @@ export default function Index() {
   const continents = Array.from(new Set(data.map(country => country.continent)))
     .filter(continent => continent && continent !== 'Antarctic');
 
-  // Calculate progress per continent
+  // Calculate progress per continent using the saved selected countries  
   const continentProgress = continents.map(continent => {
     const countriesInContinent = data.filter(country => country.continent === continent);
     const selectedInContinent = countriesInContinent.filter(country =>
-      selectedCountries.includes(country.code)
+      savedSelectedCountries.includes(country.code)
     );
     const progress = countriesInContinent.length
       ? selectedInContinent.length / countriesInContinent.length
@@ -48,7 +48,7 @@ export default function Index() {
 
   // Calculate overall progress
   const totalCountries = data.length;
-  const selectedCount = selectedCountries.length;
+  const selectedCount = savedSelectedCountries.length;
   const overallProgress = totalCountries ? selectedCount / totalCountries : 0;
 
   return (
@@ -64,7 +64,8 @@ export default function Index() {
           <ProgressBar label={continent} progress={progress} />
         </View>
       ))}
-        <MapComponent />
+
+      <MapComponent />
 
     </View>
   );
@@ -77,8 +78,7 @@ const styles = StyleSheet.create({
     padding: 16,
     marginVertical: 6,
     marginHorizontal: 12,
-    // Elevation, specific for Android
-    elevation: 5,
+    elevation: 5, // Elevation, specific for Android
   },
   headerText: {
     fontSize: 24,
@@ -86,5 +86,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginVertical: 16,
   },
-  // ...other styles if needed
+  // Still need to figure out better and softer coloring
 });
