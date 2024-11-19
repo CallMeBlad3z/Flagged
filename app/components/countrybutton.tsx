@@ -1,3 +1,5 @@
+// app/components/countrybutton.tsx
+
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import CountryFlag from 'react-native-country-flag';
