@@ -1,5 +1,5 @@
-// ProgressBar.tsx
-import React from 'react';
+// progressbar.tsx
+
 import { View, Text, StyleSheet } from 'react-native';
 
 interface ProgressBarProps {
