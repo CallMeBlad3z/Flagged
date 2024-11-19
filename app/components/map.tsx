@@ -1,22 +1,17 @@
 // components/map.tsx
 
-import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import MapboxGL from '@rnmapbox/maps';
+import { MapView } from '@rnmapbox/maps';
 import '@/mapboxConfig'; // Adjust the path as needed
 
 const MapComponent = () => {
   return (
     <View style={styles.container}>
-      <MapboxGL.MapView
+      <MapView
         styleURL="mapbox://styles/blad3z/cm2tk4cc100f501pk0grxgkt0"
         style={styles.map}
       >
-        <MapboxGL.Camera
-          zoomLevel={1}
-          centerCoordinate={[0, 0]}
-        />
-      </MapboxGL.MapView>
+      </MapView>
     </View>
   );
 };
