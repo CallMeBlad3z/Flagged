@@ -1,4 +1,5 @@
-// map.tsx
+// components/map.tsx
+
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import MapboxGL from '@rnmapbox/maps';
