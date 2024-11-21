@@ -12,12 +12,39 @@
       [
         "@rnmapbox/maps",
         {
-          "RNMapboxMapsImpl": "mapbox"
+          "RNMapboxMapsImpl": "mapbox",
+          "RNMapboxMapsVersion": "11.8.0"
+        }
+      ],
+      [
+        "expo-font",
+        {
+          "fonts":
+          [
+            "@/assets/fonts/BonaNova-Regular.ttf",
+            "@/assets/fonts/BonaNova-Bold.ttf",
+            "@/assets/fonts/BonaNova-Italic.ttf",
+            "@/assets/fonts/SourceCodePro-Black.ttf",
+            "@/assets/fonts/SourceCodePro-BlackItalic.ttf",
+            "@/assets/fonts/SourceCodePro-Bold.ttf",
+            "@/assets/fonts/SourceCodePro-BoldItalic.ttf",
+            "@/assets/fonts/SourceCodePro-ExtraBold.ttf",
+            "@/assets/fonts/SourceCodePro-ExtraBoldItalic.ttf",
+            "@/assets/fonts/SourceCodePro-ExtraLight.ttf",
+            "@/assets/fonts/SourceCodePro-ExtraLightItalic.ttf",
+            "@/assets/fonts/SourceCodePro-Italic.ttf",
+            "@/assets/fonts/SourceCodePro-Light.ttf",
+            "@/assets/fonts/SourceCodePro-LightItalic.ttf"
+          ]
         }
       ]
     ],
+    
     "android": {
       "package": "com.anonymous.flagged"
+    },
+    "extra": {
+      "mapboxAccessToken": "pk.eyJ1IjoiYmxhZDN6IiwiYSI6ImNtMnc3ZndzaTA0NmgyanNjbDVuY2YzbGUifQ.y9YaYG_2rEua3EQwsvaQiw"
     }
   }
 }
