@@ -1,10 +1,10 @@
 // progressbar.tsx
 
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native'; 
 
 interface ProgressBarProps {
-  progress: number; // Value between 0 and 1
-  label: string;
+  progress: number;
+  label: string; 
 }
 
 const ProgressBar = ({ progress, label }: ProgressBarProps) => {
@@ -32,11 +32,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   label: {
-    fontWeight: 'bold',
+    fontFamily: 'BonaNova-Bold',
     fontSize: 20,
   },
   percentage: {
-    fontWeight: 'bold',
+    fontFamily: 'SourceSans3-Bold',
     fontSize: 20,
   },
   progressBar: {
