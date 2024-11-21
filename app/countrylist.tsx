@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 10,
     paddingHorizontal: 8,
+    borderRadius: 8,
   },
   countryItem: {
     flexDirection: 'row',
@@ -91,6 +92,7 @@ const styles = StyleSheet.create({
   countryName: {
     flex: 1,
     marginLeft: 10,
+    fontFamily: 'SourceSans3-Medium',
   },
   selectButton: {
     width: 24,
