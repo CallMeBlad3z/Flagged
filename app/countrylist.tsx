@@ -15,7 +15,9 @@ export default function CountryList() {
   const [data, setData] = useState<CountryData[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [filteredData, setFilteredData] = useState<CountryData[]>([]);
-  const { selectedCountries, setSelectedCountries } = useSelectedCountries();
+  const { selectedCountries, setSelectedCountries, savedSelectedCountries } = useSelectedCountries();
+  const allSelectedCountries = [...new Set([...savedSelectedCountries, ...selectedCountries])];
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,7 +60,7 @@ export default function CountryList() {
             <CountryFlag isoCode={item.code} size={32} />
             <Text style={styles.countryName}>{item.name}</Text>
             <TouchableOpacity onPress={() => handleSelect(item)} style={styles.selectButton}>
-              {selectedCountries.includes(item.code) && <View style={styles.innerCircle} />}
+              {allSelectedCountries.includes(item.code) && <View style={styles.innerCircle} />}
             </TouchableOpacity>
           </View>
         )}
