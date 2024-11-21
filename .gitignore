@@ -43,6 +43,7 @@ mapboxConfig.ts
 # Android specific
 android/.gradle/
 android/app/.cxx/
+android/app/
 
 # iOS specific
 ios/Pods/
