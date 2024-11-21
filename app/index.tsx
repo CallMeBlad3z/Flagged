@@ -1,7 +1,7 @@
 // index.tsx
 
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import MapComponent from './components/map';
 import ProgressBar from './components/progressbar';
 import { useSelectedCountries } from './components/api/SelectedCountriesContext';
@@ -53,25 +53,33 @@ export default function Index() {
 
   return (
     <View style={{ flex: 1 }}>
-      <Text style={styles.headerText}>How much have you conquered?</Text>
-
-      <View style={styles.card}>
-        <ProgressBar label="Overall Progress" progress={overallProgress} />
+      <View style={styles.mapContainer}>
+        <MapComponent />
       </View>
+      <ScrollView style={styles.scrollView}>
+        <Text style={styles.headerText}>How much have you conquered?</Text>
 
-      {continentProgress.map(({ continent, progress }) => (
-        <View key={continent} style={styles.card}>
-          <ProgressBar label={continent} progress={progress} />
+        <View style={styles.card}>
+          <ProgressBar label="Overall Progress" progress={overallProgress} />
         </View>
-      ))}
 
-      <MapComponent />
-
+        {continentProgress.map(({ continent, progress }) => (
+          <View key={continent} style={styles.card}>
+            <ProgressBar label={continent} progress={progress} />
+          </View>
+        ))}
+      </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  mapContainer: {
+    height: 300, // Adjust the height as needed
+  },
+  scrollView: {
+    flex: 1,
+  },
   card: {
     backgroundColor: '#fff',
     borderRadius: 8,
@@ -82,7 +90,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontFamily: 'BonaNova-Bold',
     textAlign: 'center',
     marginVertical: 16,
   },
