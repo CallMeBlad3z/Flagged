@@ -52,11 +52,11 @@ export default function Index() {
   const overallProgress = totalCountries ? selectedCount / totalCountries : 0;
 
   return (
-    <View style={{ flex: 1 }}>
-      <View style={styles.mapContainer}>
-        <MapComponent />
-      </View>
+    <View style={styles.indexBody}>
       <ScrollView style={styles.scrollView}>
+        <View style={styles.mapContainer}>
+          <MapComponent />
+        </View>
         <Text style={styles.headerText}>How much have you conquered?</Text>
 
         <View style={styles.card}>
@@ -74,19 +74,22 @@ export default function Index() {
 }
 
 const styles = StyleSheet.create({
+  indexBody: {
+    flex: 1,
+    backgroundColor: '#FFF',
+  },
   mapContainer: {
-    height: 300, // Adjust the height as needed
+    height: 300, // Fixed height for the map (needs to be changed)
   },
   scrollView: {
     flex: 1,
   },
   card: {
-    backgroundColor: '#fff',
+    backgroundColor: '#F3F3F3',
     borderRadius: 8,
     padding: 16,
     marginVertical: 6,
     marginHorizontal: 12,
-    elevation: 5, // Elevation, specific for Android
   },
   headerText: {
     fontSize: 24,
