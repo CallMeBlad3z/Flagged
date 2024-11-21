@@ -2,7 +2,7 @@
 
 import { View, StyleSheet } from "react-native";
 import { Stack, Link } from "expo-router";
-import { Button } from "react-native";
+import { TouchableOpacity, Text} from "react-native";
 import { SelectedCountriesProvider, useSelectedCountries } from "./components/api/SelectedCountriesContext";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 
@@ -16,11 +16,9 @@ function HeaderSaveButton() {
   };
 
   return (
-    <Button
-      title="Save"
-      color="#007BFF"
-      onPress={handleSave}
-    />
+    <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+      <Text style={styles.saveButtonText}>Save</Text>
+    </TouchableOpacity>
   );
 }
 
@@ -56,6 +54,7 @@ export default function RootLayout() {
             name="settings" 
             options={{
               title: 'Settings',
+              headerTitleAlign: 'center',
               headerTitleStyle: {
                 fontFamily: 'BonaNova-Bold',
                 fontSize: 24,
@@ -66,6 +65,7 @@ export default function RootLayout() {
             name="countrylist"
             options={{
               title: 'Country List',
+              headerTitleAlign: 'center',
               headerTitleStyle: {
                 fontFamily: 'BonaNova-Bold',
                 fontSize: 24,
@@ -95,5 +95,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#e0e0e0",
     justifyContent: "center",
     alignItems: "center",
+  },
+  saveButton: {
+    backgroundColor: '#FFFFFF',
+    padding: 10,
+    borderRadius: 5,
+  },
+  saveButtonText: {
+    color: '#000000',
+    fontSize: 18,
+    fontFamily: 'SourceSans3-Bold',
   },
 });
