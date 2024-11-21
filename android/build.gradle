@@ -11,20 +11,8 @@ buildscript {
         ndkVersion = "26.1.10909125"
     }
     repositories {
-              mavenLocal()
-        maven {
-            url 'https://api.mapbox.com/downloads/v2/releases/maven'
-            authentication {
-                basic(BasicAuthentication)
-            }
-            credentials {
-                username = 'mapbox'
-                password = project.findProperty('sk.eyJ1IjoiYmxhZDN6IiwiYSI6ImNtMnc3dW83YTAzdHAybHNnaWRwZDczcGcifQ.JAC04Mn3dM4ccr_oM0PkHA') ?: ""
-            }
-        }
         google()
         mavenCentral()
-        maven { url 'https://www.jitpack.io' }
     }
     dependencies {
         classpath('com.android.tools.build:gradle')
@@ -52,3 +40,18 @@ allprojects {
     }
 }
 // @generated begin @rnmapbox/maps-v2-maven - expo prebuild (DO NOT MODIFY) sync-32f1b7024bb5099f2805443b1960a3233ccde124
+
+allprojects {
+  repositories {
+    maven {
+      url 'https://api.mapbox.com/downloads/v2/releases/maven'
+      authentication { basic(BasicAuthentication) }
+      credentials {
+        username = 'mapbox'
+        password = project.properties['MAPBOX_DOWNLOADS_TOKEN'] ?: ""
+      }
+    }
+  }
+}
+
+// @generated end @rnmapbox/maps-v2-maven
