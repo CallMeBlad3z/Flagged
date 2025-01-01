@@ -15,46 +15,44 @@ interface CountryItemProps {
   onSelect: (country: CountryData) => void;
 }
 
-const CountryItem = ({ country, isSelected, onSelect }: CountryItemProps) => {
-  return (
-    <View style={styles.countryItem}>
-      <CountryFlag isoCode={country.code} size={32} />
-      <Text style={styles.countryName}>{country.name}</Text>
-      <TouchableOpacity onPress={() => onSelect(country)} style={styles.selectButton}>
-        {isSelected && <View style={styles.innerCircle} />}
-      </TouchableOpacity>
-    </View>
-  );
-};
+const CountryItem = ({ country, isSelected, onSelect }: CountryItemProps) => (
+  <View style={styles.countryItem}>
+    <CountryFlag isoCode={country.code} size={32} />
+    <Text style={styles.countryName}>{country.name}</Text>
+    <TouchableOpacity onPress={() => onSelect(country)} style={styles.selectButton}>
+      {isSelected && <View style={styles.innerCircle} />}
+    </TouchableOpacity>
+  </View>
+);
+
+export default React.memo(CountryItem);
 
 const styles = StyleSheet.create({
   countryItem: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     padding: 8,
     borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
+    borderBottomColor: '#ccc',
   },
   countryName: {
     flex: 1,
-    marginLeft: 10,
+    marginLeft: 12,
+    fontSize: 16,
   },
   selectButton: {
     width: 24,
     height: 24,
     borderRadius: 12,
-    borderWidth: 2,
-    borderColor: 'grey',
+    borderWidth: 1,
+    borderColor: '#000',
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: 'auto',
   },
   innerCircle: {
     width: 12,
     height: 12,
     borderRadius: 6,
-    backgroundColor: 'grey', // Soft selection color
+    backgroundColor: '#000',
   },
 });
-
-export default CountryItem;
