@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from "react-native";
-import { Ionicons } from '@expo/vector-icons'; // Ensure you have this import
+import { Ionicons } from '@expo/vector-icons';
+import { Link } from "expo-router";
 
 //const { width } = Dimensions.get("window");
 
@@ -23,10 +24,12 @@ export default function Settings() {
           <Text style={styles.buttonText}>Attributions</Text>
           <Ionicons name="chevron-forward" size={24} color="black" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.listButton}>
-          <Text style={styles.buttonText}>Report a bug</Text>
-          <Ionicons name="chevron-forward" size={24} color="black" />
-        </TouchableOpacity>
+        <Link href="reportbugs" asChild>
+          <TouchableOpacity style={styles.listButton}>
+            <Text style={styles.buttonText}>Report a Bug</Text>
+            <Ionicons name="chevron-forward" size={24} color="black" />
+          </TouchableOpacity>
+        </Link>
         <TouchableOpacity style={styles.listButton}>
           <Text style={styles.buttonText}>Theme: Light</Text>
           <Ionicons name="chevron-forward" size={24} color="black" />
@@ -68,15 +71,16 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   title: {
-    fontSize: 20, 
-    paddingBottom: 6,
+    fontFamily: 'BonaNova-Bold',
+    fontSize: 22,
   },
   txtAppVersionTitle: {
+    fontFamily: 'SourceSans3-Medium',
     fontSize: 16,
-    color: "#000",
     marginLeft: 15,
   },
   txtAppVersion: {
+    fontFamily: 'SourceSans3-Medium',
     fontSize: 16,
     color: "#000",
     marginRight: 15,
@@ -94,7 +98,14 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: "#ddd",
   },
+  linkButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flex: 1,
+  },
   buttonText: {
+    fontFamily: 'SourceSans3-Medium',
     fontSize: 16,
     color: "#000",
   },
