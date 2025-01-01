@@ -1,10 +1,7 @@
-// countrylist.tsx
-
-import React, { useState, useEffect } from 'react';
-import { Text, View, TextInput, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
-import CountryDataFetcher from './components/api/CountryDataFetcher';
-import CountryFlag from 'react-native-country-flag';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { View, TextInput, FlatList, StyleSheet, Text } from 'react-native';
 import { useSelectedCountries } from './components/api/SelectedCountriesContext';
+import CountryButton from './components/countrybutton';
 
 interface CountryData {
   name: string;
@@ -12,37 +9,45 @@ interface CountryData {
 }
 
 export default function CountryList() {
-  const [data, setData] = useState<CountryData[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [filteredData, setFilteredData] = useState<CountryData[]>([]);
-  const { selectedCountries, setSelectedCountries, savedSelectedCountries } = useSelectedCountries();
-  const allSelectedCountries = [...new Set([...savedSelectedCountries, ...selectedCountries])];
-  
+  const { selectedCountries, setSelectedCountries, savedSelectedCountries, countryData } = useSelectedCountries();
+
+  const allSelectedCountries = useMemo(
+    () => [...new Set([...savedSelectedCountries, ...selectedCountries])],
+    [savedSelectedCountries, selectedCountries]
+  );
 
   useEffect(() => {
-    const fetchData = async () => {
-      const countries = await CountryDataFetcher();
-      setData(countries);
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
+    //console.log('Country data:', countryData); // Debug log
     setFilteredData(
-      data.filter((country) =>
+      countryData.filter((country: CountryData) =>
         country.name.toLowerCase().includes(searchQuery.toLowerCase())
       )
     );
-  }, [searchQuery, data]);
+  }, [searchQuery, countryData]);
 
-  const handleSelect = (country: CountryData) => {
-    setSelectedCountries((prevSelectedCountries) =>
-      prevSelectedCountries.includes(country.code)
-        ? prevSelectedCountries.filter((code) => code !== country.code)
-        : [...prevSelectedCountries, country.code]
-    );
-  };
+  const handleSelect = useCallback(
+    (country: CountryData) => {
+      setSelectedCountries((prevSelectedCountries) =>
+        prevSelectedCountries.includes(country.code)
+          ? prevSelectedCountries.filter((code) => code !== country.code)
+          : [...prevSelectedCountries, country.code]
+      );
+    },
+    [setSelectedCountries]
+  );
+
+  const renderItem = useCallback(
+    ({ item }: { item: CountryData }) => (
+      <CountryButton
+        country={item}
+        onSelect={handleSelect}
+        isSelected={allSelectedCountries.includes(item.code)}
+      />
+    ),
+    [handleSelect, allSelectedCountries]
+  );
 
   return (
     <View style={styles.container}>
@@ -52,19 +57,15 @@ export default function CountryList() {
         value={searchQuery}
         onChangeText={setSearchQuery}
       />
-      <FlatList
-        data={filteredData}
-        keyExtractor={(item) => item.code}
-        renderItem={({ item }) => (
-          <View style={styles.countryItem}>
-            <CountryFlag isoCode={item.code} size={32} />
-            <Text style={styles.countryName}>{item.name}</Text>
-            <TouchableOpacity onPress={() => handleSelect(item)} style={styles.selectButton}>
-              {allSelectedCountries.includes(item.code) && <View style={styles.innerCircle} />}
-            </TouchableOpacity>
-          </View>
-        )}
-      />
+      {filteredData.length === 0 ? (
+        <Text>No countries found.</Text>
+      ) : (
+        <FlatList
+          data={filteredData}
+          keyExtractor={(item) => item.code}
+          renderItem={renderItem}
+        />
+      )}
     </View>
   );
 }
@@ -81,33 +82,5 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingHorizontal: 8,
     borderRadius: 8,
-  },
-  countryItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-  },
-  countryName: {
-    flex: 1,
-    marginLeft: 10,
-    fontFamily: 'SourceSans3-Medium',
-  },
-  selectButton: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: 'grey',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginLeft: 'auto',
-  },
-  innerCircle: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    backgroundColor: 'grey',
   },
 });
