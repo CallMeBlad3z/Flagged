@@ -1,26 +1,40 @@
 // components/map.tsx
 
 import { View, StyleSheet } from 'react-native';
-import { MapView, Camera } from '@rnmapbox/maps';
-import '@/mapboxConfig'; // Adjust the path as needed
+import { MapView, Camera, VectorSource, FillLayer } from '@rnmapbox/maps';
+import { useSelectedCountries } from './api/SelectedCountriesContext';
+import '@/mapboxConfig';
 
 const MapComponent = () => {
+
+  const { selectedCountries } = useSelectedCountries(); // Get the selected countries from the context
   return (
     <View style={styles.container}>
       <MapView
         styleURL="mapbox://styles/blad3z/cm3op886700sc01s92a29489b"
         style={styles.map}
-        scrollEnabled={false}
+        scrollEnabled={false} 
         zoomEnabled={false}
         rotateEnabled={false}
         pitchEnabled={false}
         logoEnabled={false} // Disable Mapbox watermark
         attributionEnabled={false} // Disable attribution
       >
-        <Camera
-          zoomLevel={-4}
-          centerCoordinate={[21, -12]}
-        />
+        <Camera zoomLevel={-4} centerCoordinate={[21, -12]} />
+        <VectorSource
+          id="countries"
+          url="mapbox://mapbox.country-boundaries-v1"
+        >
+          <FillLayer
+            id="country-fill"
+            sourceLayerID="country_boundaries"
+            style={{
+              fillColor: '#FF0000', // Needs a better color
+              fillOpacity: 0.5,
+            }}
+            filter={['in', 'iso_3166_1', ...selectedCountries]} // Filter the selected countries
+          />
+        </VectorSource>
       </MapView>
     </View>
   );
