@@ -1,6 +1,6 @@
 // index.tsx
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import MapComponent from './components/map';
 import ProgressBar from './components/progressbar';
@@ -21,6 +21,7 @@ export default function Index() {
   useEffect(() => {
     const fetchData = async () => {
       const apiData = await CountryDataFetcher();
+      //console.log('Fetched data:', apiData); // Debug log
       setData(apiData);
     };
 
@@ -45,6 +46,8 @@ export default function Index() {
       progress,
     };
   });
+
+  //console.log('Continent progress:', continentProgress); // Debug log
 
   // Calculate overall progress
   const totalCountries = data.length;
