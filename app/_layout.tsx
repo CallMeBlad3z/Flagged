@@ -73,6 +73,17 @@ export default function RootLayout() {
               headerRight: () => <HeaderSaveButton />,
             }}
           />
+          <Stack.Screen 
+            name="reportbugs" 
+            options={{
+              title: 'Report Bugs',
+              headerTitleAlign: 'center',
+              headerTitleStyle: {
+                fontFamily: 'BonaNova-Bold',
+                fontSize: 24,
+              },
+              }}
+            />
         </Stack>
       </SelectedCountriesProvider>
   );
