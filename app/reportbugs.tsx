@@ -1,5 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, Alert } from 'react-native';
+
+interface BugReport {
+  fromEmail: string;
+  subject: string;
+  bugReport: string;
+}
 
 const ReportBugs = () => {
   const [fromEmail, setFromEmail] = useState('');
