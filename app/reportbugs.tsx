@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { View, TextInput, StyleSheet, Text, Alert, TouchableOpacity, ScrollView } from 'react-native';
 
 interface BugReport {
   fromEmail: string;
@@ -32,26 +32,40 @@ const ReportBugs = () => {
 
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Your Email"
-        value={fromEmail}
-        onChangeText={setFromEmail}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Subject"
-        value={subject}
-        onChangeText={setSubject}
-      />
-      <TextInput
-        style={styles.textArea}
-        placeholder="Describe the bug"
-        value={bugReport}
-        onChangeText={setBugReport}
-        multiline
-      />
-      <Button title="Send Bug Report" onPress={sendEmail} />
+      <ScrollView
+        contentContainerStyle={styles.scrollViewContent}
+        showsVerticalScrollIndicator={false} // Disable vertical scrollbar
+      >
+        <View style={styles.contentContainer}>
+        <Text style={styles.pageDescription}>
+          We are always looking to fix bugs that negatively impact the user experience and we value your bug reports to help us squash those pesky little nuisances.
+        </Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Your Email"
+            value={fromEmail}
+            onChangeText={setFromEmail}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Subject"
+            value={subject}
+            onChangeText={setSubject}
+          />
+          <TextInput
+            style={styles.textArea}
+            placeholder="Describe the bug"
+            value={bugReport}
+            onChangeText={setBugReport}
+            multiline
+          />
+        </View>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.button} onPress={sendEmail}>
+            <Text style={styles.buttonText}>Send</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     </View>
   );
 };
@@ -59,23 +73,50 @@ const ReportBugs = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    padding: 20,
     backgroundColor: '#fff',
   },
+  scrollViewContent: {
+    flexGrow: 1,
+    justifyContent: 'space-between',
+  },
+  pageDescription: {
+    fontSize: 14,
+    marginBottom: 20,
+    color: '#6A6A6A',
+  },
   input: {
-    height: 40,
+    height: 44,
     borderColor: '#ccc',
-    borderWidth: 1,
-    marginBottom: 12,
-    paddingHorizontal: 8,
+    borderWidth: 1.5,
+    marginBottom: 20,
+    paddingHorizontal: 12,
+    borderRadius: 5,
+    borderColor: '#818181',
   },
   textArea: {
-    height: 100,
-    borderColor: '#ccc',
-    borderWidth: 1,
+    height: 400,
+    borderColor: '#818181',
+    borderWidth: 1.5,
     marginBottom: 12,
-    paddingHorizontal: 8,
+    paddingTop: 12,
+    paddingHorizontal: 12,
     textAlignVertical: 'top',
+    borderRadius: 10,
+  },
+  buttonContainer: {
+    marginTop: 20,
+  },
+  button: {
+    backgroundColor: '#000', // Change this to your desired color
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
   },
 });
 
