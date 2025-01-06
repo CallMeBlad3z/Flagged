@@ -1,13 +1,20 @@
 {
   "expo": {
-    "name": "flagged",
-    "slug": "flagged",
+    "name": "Flagged.",
+    "slug": "flagged.",
     "version": "1.0.0",
     "sdkVersion": "51.0.0",
+    "icon": "./assets/images/app_icon.png",
+    "splash": {
+      "image": "./assets/images/splash.png",
+      "resizeMode": "contain"
+    },
     "platforms": [
       "ios",
       "android"
     ],
+    "scheme": "flagged",
+    "orientation": "portrait",
     "plugins": [
       [
         "@rnmapbox/maps",
@@ -43,6 +50,17 @@
         }
       ],
       [
+        "expo-asset",
+        {
+          "assets": [
+            "./assets/images/bg_onboarding.png",
+            "./assets/images/logo_black.png",
+            "./assets/images/logo_onboarding.png",
+            "./assets/images/logo_white.png"
+          ]
+        }
+      ],
+      [
       "expo-build-properties",
       {
         "android": {
@@ -54,7 +72,7 @@
       ]
     ],
     "android": {
-      "package": "com.anonymous.flagged"
+      "package": "com.blad3z.flagged"
     },
     "extra": {
       "mapboxAccessToken": "pk.eyJ1IjoiYmxhZDN6IiwiYSI6ImNtMnc3ZndzaTA0NmgyanNjbDVuY2YzbGUifQ.y9YaYG_2rEua3EQwsvaQiw"
