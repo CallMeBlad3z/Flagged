@@ -10,6 +10,7 @@ interface CountryData {
   continent: string;
 }
 
+// Context to store the selected countries
 interface SelectedCountriesContextProps {
   selectedCountries: string[];
   setSelectedCountries: React.Dispatch<React.SetStateAction<string[]>>;
@@ -18,8 +19,10 @@ interface SelectedCountriesContextProps {
   countryData: CountryData[];
 }
 
+// Create the selected countries context with default value of undefined
 const SelectedCountriesContext = createContext<SelectedCountriesContextProps | undefined>(undefined);
 
+// Provider to manage the selected countries state
 interface SelectedCountriesProviderProps {
   children: ReactNode;
 }
@@ -28,9 +31,9 @@ const selectedCountriesFilePath = `${FileSystem.documentDirectory}selectedCountr
 const countryDataFilePath = `${FileSystem.documentDirectory}countryData.json`;             // Stores the api countries locally
 
 export const SelectedCountriesProvider = ({ children }: SelectedCountriesProviderProps) => {
-  const [selectedCountries, setSelectedCountries] = useState<string[]>([]);           // State to store the selected countries
-  const [savedSelectedCountries, setSavedSelectedCountries] = useState<string[]>([]); // State to store the saved selected countries
-  const [countryData, setCountryData] = useState<CountryData[]>([]);                  // State to store the country data
+  const [selectedCountries, setSelectedCountries] = useState([]);           // State to store the selected countries
+  const [savedSelectedCountries, setSavedSelectedCountries] = useState([]); // State to store the saved selected countries
+  const [countryData, setCountryData] = useState([]);                  // State to store the country data
 
   // Load saved selected countries and country data from file on mount
   useEffect(() => {
@@ -80,6 +83,7 @@ export const SelectedCountriesProvider = ({ children }: SelectedCountriesProvide
   };
 
   return (
+    // Provide the selected countries context to the children
     <SelectedCountriesContext.Provider
       value={{ selectedCountries, setSelectedCountries, savedSelectedCountries, saveSelectedCountries, countryData }}
     >
