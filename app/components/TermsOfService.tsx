@@ -133,10 +133,12 @@ const styles = StyleSheet.create({
   refusebuttonText: {
     color: '#000',
     textAlign: 'center',
+    fontFamily: 'SourceSans3-Bold',
   },
   acceptbuttonText: {
     color: '#fff',
     textAlign: 'center',
+    fontFamily: 'SourceSans3-Bold',
   },
   closeButtonContainer: {
     justifyContent: 'center',
@@ -157,6 +159,7 @@ const styles = StyleSheet.create({
   closebuttonText: {
     color: '#fff',
     textAlign: 'center',
+    fontFamily: 'SourceSans3-Bold',
   },
 });
 
