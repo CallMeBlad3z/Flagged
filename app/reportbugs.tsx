@@ -1,3 +1,5 @@
+// app/reportbugs.tsx
+
 import { useState } from 'react';
 import { View, TextInput, StyleSheet, Text, Alert, TouchableOpacity, ScrollView } from 'react-native';
 
