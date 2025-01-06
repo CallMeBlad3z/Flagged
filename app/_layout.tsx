@@ -3,6 +3,7 @@
 import { View, StyleSheet, TouchableOpacity, Text, Image, Dimensions } from "react-native";
 import { Stack, Link } from "expo-router";
 import { SelectedCountriesProvider, useSelectedCountries } from "./components/api/SelectedCountriesContext";
+import { TermsProvider, useTerms } from "./components/api/TermsContext";
 import { Ionicons } from "@expo/vector-icons";
 
 const { width } = Dimensions.get('window');
@@ -23,13 +24,16 @@ function HeaderSaveButton() {
   );
 }
 
-export default function RootLayout() {
+function RootLayout() {
+  const { termsAccepted } = useTerms();
+
   return (
       <SelectedCountriesProvider>
         <Stack>
-        <Stack.Screen 
+          <Stack.Screen 
             name="index" 
             options={{
+              headerShown: termsAccepted, // Show the header if the terms have been accepted
               headerTitle: () => (
                 <Image
                   source={require('@/assets/images/logo_black.png')}
@@ -93,6 +97,15 @@ export default function RootLayout() {
             />
         </Stack>
       </SelectedCountriesProvider>
+  );
+}
+
+// Export the root component
+export default function App() {
+  return (
+    <TermsProvider>
+      <RootLayout />
+    </TermsProvider>
   );
 }
 
