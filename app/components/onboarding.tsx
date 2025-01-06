@@ -38,7 +38,6 @@ const Onboarding = ({ onFinish }: { onFinish: () => void }) => {
 
 const styles = StyleSheet.create({
   background: {
-    flex: 1,
     width: '100%',
     height: '100%',
   },
@@ -49,10 +48,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 100,
+    paddingBottom: height * 0.2, // 20% of the screen height
   },
   logo: {
-    width: width * 0.65, // 65% of the screen width
+    width: width * 0.7, // 70% of the screen width
     height: undefined,
     aspectRatio: 530 / 130, // Maintain the aspect ratio of the image
   },
