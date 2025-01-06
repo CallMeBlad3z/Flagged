@@ -7,6 +7,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import MapComponent from './components/map';
 import ProgressBar from './components/progressbar';
 import { useSelectedCountries } from './components/api/SelectedCountriesContext';
+import { useTerms } from './components/api/TermsContext';
 import CountryDataFetcher from './components/api/CountryDataFetcher';
 import TermsOfService from './components/TermsOfService';
 import Onboarding from './components/onboarding';
@@ -20,7 +21,7 @@ interface CountryData {
 export default function Index() {
   const [data, setData] = useState([]);
   const { savedSelectedCountries } = useSelectedCountries();
-  const [termsAccepted, setTermsAccepted] = useState(false);
+  const { termsAccepted, setTermsAccepted } = useTerms();
   const [hasLaunched, setHasLaunched] = useState(false);
   const [onboardingCompleted, setOnboardingCompleted] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -81,7 +82,8 @@ export default function Index() {
   };
 
   // Handle the terms refusal
-  const handleRefuseTerms = () => {
+  const handleRefuseTerms = async () => {
+    await AsyncStorage.removeItem('hasLaunched');
     setHasLaunched(false);
     setOnboardingCompleted(false);
   };
