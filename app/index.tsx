@@ -22,6 +22,7 @@ export default function Index() {
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [hasLaunched, setHasLaunched] = useState(false);
   const [onboardingCompleted, setOnboardingCompleted] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Check if the terms have been accepted
@@ -53,6 +54,12 @@ export default function Index() {
     setTermsAccepted(true);
   };
 
+  // Handle the terms refusal
+  const handleRefuseTerms = () => {
+    setHasLaunched(false);
+    setOnboardingCompleted(false);
+  };
+
   // Handle the onboarding completion
   const handleFinishOnboarding = () => {
     setHasLaunched(true);
@@ -60,11 +67,13 @@ export default function Index() {
   };
 
   // Function to reset the termsAccepted flag (for debugging)
-  /*const handleReset = async () => {
+  const handleReset = async () => {
+    await AsyncStorage.removeItem('termsAccepted');
+    await AsyncStorage.removeItem('hasLaunched');
     setTermsAccepted(false);
     setHasLaunched(false);
     setOnboardingCompleted(false);
-  };*/
+  };
 
   // Display the onboarding screen if the app has not been launched before
   if (!hasLaunched) {
@@ -73,7 +82,7 @@ export default function Index() {
 
   // Display the terms of service if they have not been accepted yet
   if (!termsAccepted && onboardingCompleted) {
-    return <TermsOfService onAccept={handleAcceptTerms} />;
+    return <TermsOfService onAccept={handleAcceptTerms} onRefuse={handleRefuseTerms} />;
   }
 
   // Exclude Antarctica and undefined/null continents
@@ -120,7 +129,7 @@ export default function Index() {
           </View>
         ))}
         {/* Button to clear the termsAccepted flag (for debugging) */}
-        {/*<Button title="Reset Terms and Onboarding" onPress={handleReset} />*/}
+        <Button title="Reset Terms and Onboarding" onPress={handleReset} />
       </ScrollView>
     </View>
   );
