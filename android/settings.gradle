@@ -44,7 +44,7 @@ if (getRNMinorVersion() >= 75) {
   }
 }
 
-rootProject.name = 'flagged'
+rootProject.name = 'Flagged'
 
 dependencyResolutionManagement {
   versionCatalogs {
