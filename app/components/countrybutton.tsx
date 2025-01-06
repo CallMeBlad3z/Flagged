@@ -1,15 +1,16 @@
 // app/components/countrybutton.tsx
-
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import CountryFlag from 'react-native-country-flag';
 
+// Country data interface
 interface CountryData {
   name: string;
   code: string;
 }
 
-interface CountryItemProps {
+// Country button props
+interface CountryButtonProps {
   country: CountryData;
   isSelected: boolean;
   onSelect: (country: CountryData) => void;
@@ -19,6 +20,7 @@ const CountryItem = ({ country, isSelected, onSelect }: CountryItemProps) => (
   <View style={styles.countryItem}>
     <CountryFlag isoCode={country.code} size={32} />
     <Text style={styles.countryName}>{country.name}</Text>
+    <Text style={styles.countryCode}>{country.code}</Text>
     <TouchableOpacity onPress={() => onSelect(country)} style={styles.selectButton}>
       {isSelected && <View style={styles.innerCircle} />}
     </TouchableOpacity>
@@ -39,6 +41,12 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 12,
     fontSize: 16,
+  },
+  countryCode: {
+    fontSize: 15,
+    color: '#000',
+    marginRight: 12,
+    fontFamily: 'SourceSans3-ExtraBold'
   },
   selectButton: {
     width: 24,
