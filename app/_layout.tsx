@@ -1,12 +1,12 @@
 // _layout.tsx
 
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { Stack, Link } from "expo-router";
-import { TouchableOpacity, Text} from "react-native";
 import { SelectedCountriesProvider, useSelectedCountries } from "./components/api/SelectedCountriesContext";
-import { Ionicons, AntDesign } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 
 
+// Save button for the countrylist screen
 function HeaderSaveButton() {
   const { saveSelectedCountries } = useSelectedCountries();
 
@@ -38,12 +38,12 @@ export default function RootLayout() {
                 <View style={styles.navbar}>
                   <Link style={styles.navLink} href="/settings">
                     <View style={styles.iconWrapper}>
-                      <Ionicons name="settings" size={24} color="black" />
+                      <Ionicons name="settings-outline" size={24} color="black" />
                     </View>
                   </Link>
                   <Link style={styles.navLink} href="countrylist">
                     <View style={styles.iconWrapper}>
-                      <AntDesign name="plus" size={24} color="black" />
+                      <Ionicons name="add-outline" size={24} color="black" />
                     </View>
                   </Link>
                 </View>
