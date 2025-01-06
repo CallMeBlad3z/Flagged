@@ -144,7 +144,7 @@ export default function Index() {
 
   return (
     <View style={styles.indexBody}>
-      <ScrollView style={styles.scrollView}>
+      <ScrollView overScrollMode="never">
         <View style={styles.mapContainer}>
           <MapComponent />
         </View>
@@ -173,9 +173,6 @@ const styles = StyleSheet.create({
   },
   mapContainer: {
     height: 300, // Fixed height for the map (needs to be changed)
-  },
-  scrollView: {
-    flex: 1,
   },
   card: {
     backgroundColor: '#F3F3F3',
