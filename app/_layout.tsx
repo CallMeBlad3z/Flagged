@@ -1,10 +1,11 @@
 // app/_layout.tsx
 
-import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Text, Image, Dimensions } from "react-native";
 import { Stack, Link } from "expo-router";
 import { SelectedCountriesProvider, useSelectedCountries } from "./components/api/SelectedCountriesContext";
 import { Ionicons } from "@expo/vector-icons";
 
+const { width } = Dimensions.get('window');
 
 // Save button for the countrylist screen
 function HeaderSaveButton() {
@@ -26,10 +27,16 @@ export default function RootLayout() {
   return (
       <SelectedCountriesProvider>
         <Stack>
-          <Stack.Screen 
+        <Stack.Screen 
             name="index" 
             options={{
-              title: 'Flagged.',
+              headerTitle: () => (
+                <Image
+                  source={require('@/assets/images/logo_black.png')}
+                  style={styles.logo}
+                  resizeMode="contain"
+                />
+              ),
               headerTitleStyle: {
                 fontFamily: 'BonaNova-Bold',
                 fontSize: 24,
@@ -41,7 +48,7 @@ export default function RootLayout() {
                       <Ionicons name="settings-outline" size={24} color="black" />
                     </View>
                   </Link>
-                  <Link style={styles.navLink} href="countrylist">
+                  <Link style={styles.navLink} href="/countrylist">
                     <View style={styles.iconWrapper}>
                       <Ionicons name="add-outline" size={24} color="black" />
                     </View>
@@ -90,6 +97,11 @@ export default function RootLayout() {
 }
 
 const styles = StyleSheet.create({
+  logo: {
+    width: width * 0.3,
+    height: undefined,
+    aspectRatio: 3, // Maintain the aspect ratio of the image
+  },
   navbar: {
     flexDirection: "row",
     alignItems: "center",
