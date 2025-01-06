@@ -1,4 +1,4 @@
-// components/map.tsx
+// app/components/map.tsx
 
 import { View, StyleSheet } from 'react-native';
 import { MapView, Camera, VectorSource, FillLayer } from '@rnmapbox/maps';
