@@ -1,4 +1,4 @@
-// _layout.tsx
+// app/_layout.tsx
 
 import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { Stack, Link } from "expo-router";
