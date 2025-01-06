@@ -1,4 +1,4 @@
-// progressbar.tsx
+// app/components/progressbar.tsx
 
 import { View, Text, StyleSheet } from 'react-native'; 
 
