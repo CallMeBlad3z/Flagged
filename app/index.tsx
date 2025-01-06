@@ -1,8 +1,9 @@
 // app/index.tsx
 
 import { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Button } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Button, AppState } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as SplashScreen from 'expo-splash-screen';
 import MapComponent from './components/map';
 import ProgressBar from './components/progressbar';
 import { useSelectedCountries } from './components/api/SelectedCountriesContext';
@@ -24,30 +25,55 @@ export default function Index() {
   const [onboardingCompleted, setOnboardingCompleted] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  // Initialize the app when the component mounts
   useEffect(() => {
-    // Check if the terms have been accepted
-    const checkTermsAccepted = async () => {
-      const accepted = await AsyncStorage.getItem('termsAccepted');
-      setTermsAccepted(accepted === 'true');
+    
+    const initializeApp = async () => {
+      try {
+        // Prevent the splash screen from auto-hiding
+        await SplashScreen.preventAutoHideAsync();
+
+        // Check if the terms have been accepted
+        const accepted = await AsyncStorage.getItem('termsAccepted');
+        setTermsAccepted(accepted === 'true');
+
+        // Check if the app has been launched before
+        const launched = await AsyncStorage.getItem('hasLaunched');
+        setHasLaunched(launched === 'true');
+
+        // Fetch the country data when the component mounts
+        const apiData = await CountryDataFetcher();
+        setData(apiData);
+
+        // Set loading to false after all checks are done
+        setLoading(false);
+
+        // Hide the splash screen
+        await SplashScreen.hideAsync();
+      } catch (e) {
+        console.warn(e);
+      }
     };
 
-    // Check if the app has been launched before
-    const checkHasLaunched = async () => {
-      const launched = await AsyncStorage.getItem('hasLaunched');
-      setHasLaunched(launched === 'true');
-    };
-
-    // Fetch the country data when the component mounts
-    const fetchData = async () => {
-      const apiData = await CountryDataFetcher();
-      //console.log('Fetched data:', apiData); // Debug log
-      setData(apiData);
-    };
-
-    checkTermsAccepted();
-    checkHasLaunched();
-    fetchData();
+    initializeApp();
   }, []);
+
+  // Save the hasLaunched state when the app is backgrounded
+  useEffect(() => {
+    const handleAppStateChange = async (nextAppState) => {
+      if (nextAppState === 'background' && !termsAccepted) {
+        await AsyncStorage.removeItem('hasLaunched');
+      }
+    };
+
+    // Add an event listener to handle app state changes
+    const subscription = AppState.addEventListener('change', handleAppStateChange);
+
+    // Remove the event listener when the component unmounts
+    return () => {
+      subscription.remove();
+    };
+  }, [termsAccepted]);
 
   // Handle the terms acceptance
   const handleAcceptTerms = () => {
@@ -74,6 +100,11 @@ export default function Index() {
     setHasLaunched(false);
     setOnboardingCompleted(false);
   };
+
+  // Display a loading indicator while fetching data
+  if (loading) {
+    return null; // Return null while loading to keep the splash screen visible
+  }
 
   // Display the onboarding screen if the app has not been launched before
   if (!hasLaunched) {
