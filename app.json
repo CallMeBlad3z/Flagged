@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Flagged.",
-    "slug": "flagged.",
+    "name": "Flagged",
+    "slug": "flagged",
     "version": "1.0.0",
     "sdkVersion": "51.0.0",
     "icon": "./assets/images/app_icon.png",
