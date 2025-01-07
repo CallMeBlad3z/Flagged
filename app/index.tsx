@@ -28,7 +28,6 @@ export default function Index() {
 
   // Initialize the app when the component mounts
   useEffect(() => {
-    
     const initializeApp = async () => {
       try {
         // Prevent the splash screen from auto-hiding
@@ -42,10 +41,6 @@ export default function Index() {
         const launched = await AsyncStorage.getItem('hasLaunched');
         setHasLaunched(launched === 'true');
 
-        // Fetch the country data when the component mounts
-        const apiData = await CountryDataFetcher();
-        setData(apiData);
-
         // Set loading to false after all checks are done
         setLoading(false);
 
@@ -57,6 +52,18 @@ export default function Index() {
     };
 
     initializeApp();
+  }, []);
+
+  // Fetch the country data when the component mounts
+  useEffect(() => {
+    const fetchData = async () => {
+      //const countryDataFetcherStart = Date.now();
+      const apiData = await CountryDataFetcher();
+      setData(apiData);
+      //console.log('CountryDataFetcher:', Date.now() - countryDataFetcherStart, 'ms');
+    };
+
+    fetchData();
   }, []);
 
   // Save the hasLaunched state when the app is backgrounded
