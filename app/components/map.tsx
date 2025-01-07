@@ -1,7 +1,7 @@
 // app/components/map.tsx
 
 import { View, StyleSheet } from 'react-native';
-import { MapView, Camera, VectorSource, FillLayer } from '@rnmapbox/maps';
+import { MapView, Camera, VectorSource, FillLayer, ConstrainMode } from '@rnmapbox/maps';
 import { useSelectedCountries } from './api/SelectedCountriesContext';
 import '@/mapboxConfig';
 
@@ -19,8 +19,12 @@ const MapComponent = () => {
         pitchEnabled={false}
         logoEnabled={false} // Disable Mapbox watermark
         attributionEnabled={false} // Disable attribution
+        scaleBarEnabled={false} // Disable scale bar
       >
-        <Camera zoomLevel={-4} centerCoordinate={[21, -12]} />
+        <Camera
+          zoomLevel={0} centerCoordinate={[-0, 42]}
+          animationDuration={0} // Disable camera animation
+        />
         <VectorSource
           id="countries"
           url="mapbox://mapbox.country-boundaries-v1"
