@@ -1,3 +1,5 @@
+// app/components/TermsOfService.tsx
+
 import { useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, useWindowDimensions, Animated, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
