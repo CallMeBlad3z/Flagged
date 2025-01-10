@@ -8,7 +8,7 @@ interface CountryData {
 
 const CountryDataFetcher = async (): Promise<CountryData[]> => {
   try {
-    const ipAddress = '192.168.0.170';
+    const ipAddress = 'your-ip-address'; // Update with your IP address
     const response = await fetch(`http://${ipAddress}:3000/countries`);
     const data = await response.json();
 
