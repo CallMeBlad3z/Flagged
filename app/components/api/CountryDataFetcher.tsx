@@ -17,8 +17,9 @@ const CountryDataFetcher = async (): Promise<CountryData[]> => {
       const countries = data.map((country: any) => ({
         name: country.name,
         code: country.code,
-        continent: country.continent, // Ensure the API returns this
+        continent: country.continent,
       }));
+      //console.log('Fetched countries:', countries);
       return countries;
     } else {
       console.error('Unexpected response format:', data);
