@@ -1,13 +1,13 @@
-// app/settings.tsx
-
 import { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 import { Link } from "expo-router";
 import TermsOfService from "./components/TermsOfService";
+import PrivacyPolicy from "./components/privacypolicy";
 
 export default function Settings() {
   const [showTerms, setShowTerms] = useState(false);
+  const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
 
   const handleShowTerms = () => {
     setShowTerms(true);
@@ -17,11 +17,24 @@ export default function Settings() {
     setShowTerms(false);
   };
 
+  const handleShowPrivacyPolicy = () => {
+    setShowPrivacyPolicy(true);
+  };
+
+  const handleClosePrivacyPolicy = () => {
+    setShowPrivacyPolicy(false);
+  };
+
   return (
     <View style={styles.container}>
       {showTerms && (
         <View style={styles.overlay}>
           <TermsOfService onClose={handleCloseTerms} showButtons={false} />
+        </View>
+      )}
+      {showPrivacyPolicy && (
+        <View style={styles.overlay}>
+          <PrivacyPolicy onClose={handleClosePrivacyPolicy} />
         </View>
       )}
       <ScrollView>
@@ -37,10 +50,6 @@ export default function Settings() {
             <Text style={styles.buttonText}>About the app</Text>
             <Ionicons name="chevron-forward" size={24} color="black" />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.listButton}>
-            <Text style={styles.buttonText}>Theme: Light</Text>
-            <Ionicons name="chevron-forward" size={24} color="black" />
-          </TouchableOpacity>
           <Link href="reportbugs" asChild>
             <TouchableOpacity style={styles.listButton}>
               <Text style={styles.buttonText}>Report a Bug</Text>
@@ -53,7 +62,7 @@ export default function Settings() {
           <View style={styles.titleContainer}>
             <Text style={styles.title}>Support</Text>
           </View>
-          <TouchableOpacity style={styles.listButton}>
+          <TouchableOpacity style={styles.listButton} onPress={handleShowPrivacyPolicy}>
             <Text style={styles.buttonText}>Privacy Policy</Text>
             <Ionicons name="chevron-forward" size={24} color="black" />
           </TouchableOpacity>
@@ -61,11 +70,14 @@ export default function Settings() {
             <Text style={styles.buttonText}>Terms of Service</Text>
             <Ionicons name="chevron-forward" size={24} color="black" />
           </TouchableOpacity>
+
+          {/* This is still WIP */}
           <TouchableOpacity style={styles.listButton}>
-            <Text style={styles.buttonText}>Contact Us</Text>
+            <Text style={styles.buttonText}>Contact Us</Text> 
             <Ionicons name="chevron-forward" size={24} color="black" />
           </TouchableOpacity>
         </View>
+        <Text style={styles.copyrightText}>© 2025 Flagged.</Text>
       </ScrollView>
     </View>
   );
@@ -137,5 +149,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+  },
+  copyrightText: {
+    fontSize: 16,
+    paddingTop: 45,
+    color: 'grey',
+    textAlign: 'center',
+    fontFamily: 'SourceSans3-Regular',
   },
 });
