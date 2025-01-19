@@ -1,4 +1,4 @@
-# Flagged
+# Flagged.
 
 A simple travel log mobile app to track your country visits with a minimalistic UI.
 
