@@ -21,7 +21,7 @@ const ReportBugs = () => {
     }
 
     try {
-      await fetch('http://192.168.0.88:3000/email/report-bug', {
+      await fetch('https://flagged-app.com/email/report-bug', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ fromEmail, subject, bugReport }),
@@ -36,7 +36,7 @@ const ReportBugs = () => {
     <View style={styles.container}>
       <ScrollView
         contentContainerStyle={styles.scrollViewContent}
-        showsVerticalScrollIndicator={false} // Disable vertical scrollbar
+        showsVerticalScrollIndicator={false}
       >
         <View style={styles.contentContainer}>
         <Text style={styles.pageDescription}>
