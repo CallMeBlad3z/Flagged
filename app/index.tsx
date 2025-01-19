@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Button, AppState } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as SplashScreen from 'expo-splash-screen';
+import * as FileSystem from 'expo-file-system';
 import MapComponent from './components/map';
 import ProgressBar from './components/progressbar';
 import { useSelectedCountries } from './components/api/SelectedCountriesContext';
@@ -102,13 +103,25 @@ export default function Index() {
   };
 
   // Function to reset the termsAccepted flag (for debugging)
-  const handleReset = async () => {
+  /*const handleReset = async () => {
     await AsyncStorage.removeItem('termsAccepted');
     await AsyncStorage.removeItem('hasLaunched');
     setTermsAccepted(false);
     setHasLaunched(false);
     setOnboardingCompleted(false);
-  };
+  };*/
+
+  // Function to delete the local file (for debugging)
+  /*const handleDeleteLocalFile = async () => {
+    const countryDataFilePath = `${FileSystem.documentDirectory}countryData.json`;
+    try {
+      await FileSystem.deleteAsync(countryDataFilePath);
+      alert('Local file deleted successfully.');
+    } catch (error) {
+      console.error('Error deleting local file:', error);
+      alert('Failed to delete local file.');
+    }
+  };*/
 
   // Display a loading indicator while fetching data
   if (loading) {
@@ -169,7 +182,9 @@ export default function Index() {
           </View>
         ))}
         {/* Button to clear the termsAccepted flag (for debugging) */}
-        <Button title="Reset Terms and Onboarding" onPress={handleReset} />
+        {/*<Button title="Reset Terms and Onboarding" onPress={handleReset} />*/}
+        {/* Button to delete the local file (for debugging) */}
+        {/*<Button title="Delete Local File" onPress={handleDeleteLocalFile} />*/}
       </ScrollView>
     </View>
   );
