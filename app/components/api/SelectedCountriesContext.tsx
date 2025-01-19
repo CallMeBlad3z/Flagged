@@ -17,6 +17,7 @@ interface SelectedCountriesContextProps {
   savedSelectedCountries: string[];
   saveSelectedCountries: () => Promise<void>;
   countryData: CountryData[];
+  loading: boolean;
 }
 
 // Create the selected countries context with default value of undefined
@@ -31,9 +32,10 @@ const selectedCountriesFilePath = `${FileSystem.documentDirectory}selectedCountr
 const countryDataFilePath = `${FileSystem.documentDirectory}countryData.json`;             // Stores the api countries locally
 
 export const SelectedCountriesProvider = ({ children }: SelectedCountriesProviderProps) => {
-  const [selectedCountries, setSelectedCountries] = useState([]);           // State to store the selected countries
-  const [savedSelectedCountries, setSavedSelectedCountries] = useState([]); // State to store the saved selected countries
-  const [countryData, setCountryData] = useState([]);                  // State to store the country data
+  const [selectedCountries, setSelectedCountries] = useState<string[]>([]);           // State to store the selected countries
+  const [savedSelectedCountries, setSavedSelectedCountries] = useState<string[]>([]); // State to store the saved selected countries
+  const [countryData, setCountryData] = useState<CountryData[]>([]);                  // State to store the country data
+  const [loading, setLoading] = useState(true);                                       // State to manage loading state
 
   // Load saved selected countries and country data from file on mount
   useEffect(() => {
@@ -52,8 +54,16 @@ export const SelectedCountriesProvider = ({ children }: SelectedCountriesProvide
         if (countryDataFileInfo.exists) { 
           const fileContents = await FileSystem.readAsStringAsync(countryDataFilePath);
           const storedCountryData = JSON.parse(fileContents);
-          setCountryData(storedCountryData);
-          //console.log('Loaded country data from file:', storedCountryData);   // Debug log
+          if (Array.isArray(storedCountryData) && storedCountryData.length > 0) {
+            setCountryData(storedCountryData);
+            console.log('Loaded country data from file:', storedCountryData);
+          } else {
+            console.log('Stored data is empty; fetching...');
+            const data = await CountryDataFetcher();
+            setCountryData(data);
+            await FileSystem.writeAsStringAsync(countryDataFilePath, JSON.stringify(data));
+            console.log('Fetched and saved new country data:', data);
+          }
         } else {
           const data = await CountryDataFetcher(); // Fetch the country data
           setCountryData(data);
@@ -62,6 +72,8 @@ export const SelectedCountriesProvider = ({ children }: SelectedCountriesProvide
         }
       } catch (error) {
         console.error('Error reading saved data from file:', error);
+      } finally {
+        setLoading(false);
       }
     };
     loadSavedData();
@@ -76,7 +88,7 @@ export const SelectedCountriesProvider = ({ children }: SelectedCountriesProvide
       );
       // Update the savedSelectedCountries state
       setSavedSelectedCountries(selectedCountries);
-      console.log('Selected countries saved.');
+      console.log('Selected countries saved:', selectedCountries);
     } catch (error) {
       console.error('Error saving selected countries to file:', error);
     }
@@ -85,7 +97,7 @@ export const SelectedCountriesProvider = ({ children }: SelectedCountriesProvide
   return (
     // Provide the selected countries context to the children
     <SelectedCountriesContext.Provider
-      value={{ selectedCountries, setSelectedCountries, savedSelectedCountries, saveSelectedCountries, countryData }}
+      value={{ selectedCountries, setSelectedCountries, savedSelectedCountries, saveSelectedCountries, countryData, loading }}
     >
       {children}
     </SelectedCountriesContext.Provider>
