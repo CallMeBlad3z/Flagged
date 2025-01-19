@@ -8,8 +8,7 @@ interface CountryData {
 
 const CountryDataFetcher = async (): Promise<CountryData[]> => {
   try {
-    const ipAddress = 'your-ip-address'; // Update with your IP address
-    const response = await fetch(`http://${ipAddress}:3000/countries`);
+    const response = await fetch(`https://flagged-app.com/countries`);
     const data = await response.json();
 
     if (Array.isArray(data)) {
