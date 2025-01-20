@@ -8,6 +8,10 @@ A simple travel log mobile app to track your country visits with a minimalistic 
 - npm (v9 or later) or Yarn
 - Android 14 (SDK 34)
 
+## Backend Repository
+
+The app requires a connection the backend, see: [flagged-backend](https://github.com/CallMeBlad3z/flagged-backend).
+
 ## Installation
 1. Clone or download the repository
 2. In the root directory (package.json)
@@ -22,7 +26,7 @@ npx expo prebuild
 ```
 npx expo run:android
 ```
-## Running the project
+## Running The Project
 ```
 npx expo run:android
 ```
