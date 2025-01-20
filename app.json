@@ -62,14 +62,14 @@
         }
       ],
       [
-      "expo-build-properties",
-      {
-        "android": {
-          "compileSdkVersion": 34,
-          "targetSdkVersion": 34,
-          "buildToolsVersion": "34.0.0"
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 34,
+            "targetSdkVersion": 34,
+            "buildToolsVersion": "34.0.0"
+          }
         }
-      }
       ]
     ],
     "android": {
@@ -79,7 +79,9 @@
       }
     },
     "extra": {
-      "mapboxAccessToken": "pk.eyJ1IjoiYmxhZDN6IiwiYSI6ImNtMnc3ZndzaTA0NmgyanNjbDVuY2YzbGUifQ.y9YaYG_2rEua3EQwsvaQiw"
+      "eas": {
+        "projectId": "85985c89-5fff-4108-9e14-6abcde85e42c"
+      }
     }
   }
 }
