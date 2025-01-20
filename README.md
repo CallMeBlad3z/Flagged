@@ -1,9 +1,6 @@
-# Flagged
+# Flagged.
 
 A simple travel log mobile app to track your country visits with a minimalistic UI.
-
-### Important
-The app is not production ready as of now, so the backend connection isn't available to the public yet. I'll be removing this once it's up and running.
 
 ## Requirements
 
