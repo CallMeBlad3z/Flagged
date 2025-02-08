@@ -1,7 +1,7 @@
 // app/index.tsx
 
 import { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Button, AppState } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Button, AppState, Dimensions } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as SplashScreen from 'expo-splash-screen';
 import * as FileSystem from 'expo-file-system';
@@ -12,12 +12,15 @@ import { useTerms } from './components/api/TermsContext';
 import CountryDataFetcher from './components/api/CountryDataFetcher';
 import TermsOfService from './components/TermsOfService';
 import Onboarding from './components/onboarding';
+import { initMapbox } from '../mapboxConfig';
 
 interface CountryData {
   name: string;
   code: string;
   continent: string;
 }
+
+width = Dimensions.get('window').width;
 
 export default function Index() {
   const [data, setData] = useState([]);
@@ -33,6 +36,9 @@ export default function Index() {
       try {
         // Prevent the splash screen from auto-hiding
         await SplashScreen.preventAutoHideAsync();
+
+        // Initialize Mapbox
+        await initMapbox();
 
         // Check if the terms have been accepted
         const accepted = await AsyncStorage.getItem('termsAccepted');
@@ -112,7 +118,7 @@ export default function Index() {
   };*/
 
   // Function to delete the local file (for debugging)
-  /*const handleDeleteLocalFile = async () => {
+  const handleDeleteLocalFile = async () => {
     const countryDataFilePath = `${FileSystem.documentDirectory}countryData.json`;
     try {
       await FileSystem.deleteAsync(countryDataFilePath);
@@ -121,7 +127,7 @@ export default function Index() {
       console.error('Error deleting local file:', error);
       alert('Failed to delete local file.');
     }
-  };*/
+  };
 
   // Display a loading indicator while fetching data
   if (loading) {
@@ -184,7 +190,7 @@ export default function Index() {
         {/* Button to clear the termsAccepted flag (for debugging) */}
         {/*<Button title="Reset Terms and Onboarding" onPress={handleReset} />*/}
         {/* Button to delete the local file (for debugging) */}
-        {/*<Button title="Delete Local File" onPress={handleDeleteLocalFile} />*/}
+        <Button title="Delete Local File" onPress={handleDeleteLocalFile} />
       </ScrollView>
     </View>
   );
@@ -203,12 +209,12 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 6,
     marginVertical: 6,
-    marginHorizontal: 20,
+    marginHorizontal: width * 0.05, // 5% of the screen width
   },
   headerText: {
     fontSize: 24,
     fontFamily: 'BonaNova-Bold',
     textAlign: 'center',
-    marginVertical: 20,
+    marginVertical: width * 0.05, // 25% of the screen width
   },
 });
