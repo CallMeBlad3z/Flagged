@@ -118,7 +118,7 @@ export default function Index() {
   };*/
 
   // Function to delete the local file (for debugging)
-  const handleDeleteLocalFile = async () => {
+  /*const handleDeleteLocalFile = async () => {
     const countryDataFilePath = `${FileSystem.documentDirectory}countryData.json`;
     try {
       await FileSystem.deleteAsync(countryDataFilePath);
@@ -127,7 +127,7 @@ export default function Index() {
       console.error('Error deleting local file:', error);
       alert('Failed to delete local file.');
     }
-  };
+  };*/
 
   // Display a loading indicator while fetching data
   if (loading) {
@@ -190,7 +190,7 @@ export default function Index() {
         {/* Button to clear the termsAccepted flag (for debugging) */}
         {/*<Button title="Reset Terms and Onboarding" onPress={handleReset} />*/}
         {/* Button to delete the local file (for debugging) */}
-        <Button title="Delete Local File" onPress={handleDeleteLocalFile} />
+        {/*<Button title="Delete Local File" onPress={handleDeleteLocalFile} /> */}
       </ScrollView>
     </View>
   );
