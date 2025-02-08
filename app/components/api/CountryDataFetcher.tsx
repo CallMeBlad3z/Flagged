@@ -8,7 +8,7 @@ interface CountryData {
 
 const CountryDataFetcher = async (): Promise<CountryData[]> => {
   try {
-    const response = await fetch(`https://flagged-app.com/countries`);
+    const response = await fetch(`https://flagged-app.com/api/countries`);
     const data = await response.json();
 
     if (Array.isArray(data)) {
