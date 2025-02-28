@@ -215,6 +215,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontFamily: 'BonaNova-Bold',
     textAlign: 'center',
-    marginVertical: width * 0.05, // 25% of the screen width
+    marginHorizontal: width * 0.05, // 25% of the screen width
+    marginVertical: 5,
   },
 });
