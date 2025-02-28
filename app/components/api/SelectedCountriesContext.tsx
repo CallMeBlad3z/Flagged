@@ -56,13 +56,13 @@ export const SelectedCountriesProvider = ({ children }: SelectedCountriesProvide
           const storedCountryData = JSON.parse(fileContents);
           if (Array.isArray(storedCountryData) && storedCountryData.length > 0) {
             setCountryData(storedCountryData);
-            console.log('Loaded country data from file:', storedCountryData);
+            //console.log('Loaded country data from file:', storedCountryData);
           } else {
-            console.log('Stored data is empty; fetching...');
+            //console.log('Stored data is empty; fetching...');
             const data = await CountryDataFetcher();
             setCountryData(data);
             await FileSystem.writeAsStringAsync(countryDataFilePath, JSON.stringify(data));
-            console.log('Fetched and saved new country data:', data);
+            //console.log('Fetched and saved new country data:', data);
           }
         } else {
           const data = await CountryDataFetcher(); // Fetch the country data
@@ -71,7 +71,7 @@ export const SelectedCountriesProvider = ({ children }: SelectedCountriesProvide
           //console.log('Fetched and saved country data:', data);   // Debug log
         }
       } catch (error) {
-        console.error('Error reading saved data from file:', error);
+        //console.error('Error reading saved data from file:', error);
       } finally {
         setLoading(false);
       }
