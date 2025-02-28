@@ -72,10 +72,12 @@ export default function Settings() {
           </TouchableOpacity>
 
           {/* This is still WIP */}
-          <TouchableOpacity style={styles.listButton}>
-            <Text style={styles.buttonText}>Contact Us</Text> 
-            <Ionicons name="chevron-forward" size={24} color="black" />
-          </TouchableOpacity>
+          <Link href="contactus" asChild>
+            <TouchableOpacity style={styles.listButton}>
+              <Text style={styles.buttonText}>Contact Us</Text>
+              <Ionicons name="chevron-forward" size={24} color="black" />
+            </TouchableOpacity>
+          </Link>
         </View>
         <Text style={styles.copyrightText}>© 2025 Flagged.</Text>
       </ScrollView>
