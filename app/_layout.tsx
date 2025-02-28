@@ -71,7 +71,7 @@ function RootLayout() {
                 fontSize: 24,
               },
               }}
-            />
+          />
           <Stack.Screen
             name="countrylist"
             options={{
@@ -94,7 +94,18 @@ function RootLayout() {
                 fontSize: 24,
               },
               }}
-            />
+          />
+          <Stack.Screen 
+            name="contactus" 
+            options={{
+              title: 'Contact Us',
+              headerTitleAlign: 'center',
+              headerTitleStyle: {
+                fontFamily: 'BonaNova-Bold',
+                fontSize: 24,
+              },
+              }}
+          />
         </Stack>
       </SelectedCountriesProvider>
   );
