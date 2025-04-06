@@ -15,7 +15,7 @@ const ReportBugs = () => {
   const [formData, setFormData] = useState<BugReport>({
     fromEmail: '',
     subject: '',
-    bugReport: ''
+    bugReport: '',
   });
 
   const sendEmail = async (): Promise<void> => {
@@ -33,7 +33,7 @@ const ReportBugs = () => {
       });
 
       const responseText = await response.text();
-      console.log('Response text:', responseText);
+      //console.log('Response text:', responseText);
 
       // Check if the response is JSON
       if (response.headers.get('content-type')?.includes('application/json')) {
@@ -57,9 +57,9 @@ const ReportBugs = () => {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.contentContainer}>
-        <Text style={styles.pageDescription}>
-          We are always looking to fix bugs that negatively impact the user experience and we value your bug reports to help us squash those pesky little nuisances.
-        </Text>
+          <Text style={styles.pageDescription}>
+            We are always looking to fix bugs that negatively impact the user experience and we value your bug reports to help us squash those pesky little nuisances.
+          </Text>
           <TextInput
             style={styles.input}
             placeholder="Your Email"
@@ -80,7 +80,7 @@ const ReportBugs = () => {
             multiline
           />
         </View>
-        <View style={styles.buttonContainer}>
+        <View>
           <TouchableOpacity style={styles.button} onPress={sendEmail}>
             <Text style={styles.buttonText}>Send</Text>
           </TouchableOpacity>
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginBottom: 20,
     color: '#6A6A6A',
-  },  
+  },
   input: {
     height: 44,
     borderWidth: 1.5,
@@ -118,16 +118,13 @@ const styles = StyleSheet.create({
   },
   textArea: {
     height: height * 0.5,
+    borderColor: '#818181',
     borderWidth: 1.5,
-    marginBottom: 12,
+    marginBottom: 10,
     paddingTop: 12,
     paddingHorizontal: 12,
     textAlignVertical: 'top',
     borderRadius: 10,
-    borderColor: '#818181',
-  },
-  buttonContainer: {
-    marginTop: 20,
   },
   button: {
     backgroundColor: '#000', // Change this to your desired color
