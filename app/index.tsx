@@ -1,15 +1,14 @@
 // app/index.tsx
 
 import { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Button, AppState, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Button, Dimensions} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as SplashScreen from 'expo-splash-screen';
-import * as FileSystem from 'expo-file-system';
+//import * as FileSystem from 'expo-file-system'; // For debugging
 import MapComponent from './components/map';
 import ProgressBar from './components/progressbar';
 import { useSelectedCountries } from './components/api/SelectedCountriesContext';
 import { useTerms } from './components/api/TermsContext';
-import CountryDataFetcher from './components/api/CountryDataFetcher';
 import TermsOfService from './components/TermsOfService';
 import Onboarding from './components/onboarding';
 import { initMapbox } from '../mapboxConfig';
@@ -20,10 +19,10 @@ interface CountryData {
   continent: string;
 }
 
-width = Dimensions.get('window').width;
+const width = Dimensions.get('window').width;
 
 export default function Index() {
-  const [data, setData] = useState([]);
+  const { countryData, loading: countriesLoading } = useSelectedCountries();
   const { savedSelectedCountries } = useSelectedCountries();
   const { termsAccepted, setTermsAccepted } = useTerms();
   const [hasLaunched, setHasLaunched] = useState(false);
@@ -61,34 +60,10 @@ export default function Index() {
     initializeApp();
   }, []);
 
-  // Fetch the country data when the component mounts
-  useEffect(() => {
-    const fetchData = async () => {
-      //const countryDataFetcherStart = Date.now();
-      const apiData = await CountryDataFetcher();
-      setData(apiData);
-      //console.log('CountryDataFetcher:', Date.now() - countryDataFetcherStart, 'ms');
-    };
-
-    fetchData();
-  }, []);
-
-  // Save the hasLaunched state when the app is backgrounded
-  useEffect(() => {
-    const handleAppStateChange = async (nextAppState) => {
-      if (nextAppState === 'background' && !termsAccepted) {
-        await AsyncStorage.removeItem('hasLaunched');
-      }
-    };
-
-    // Add an event listener to handle app state changes
-    const subscription = AppState.addEventListener('change', handleAppStateChange);
-
-    // Remove the event listener when the component unmounts
-    return () => {
-      subscription.remove();
-    };
-  }, [termsAccepted]);
+  // Display a loading indicator while fetching data
+  if (loading || countriesLoading) {
+    return null; // Return null while loading to keep the splash screen visible
+  }
 
   // Handle the terms acceptance
   const handleAcceptTerms = () => {
@@ -129,11 +104,6 @@ export default function Index() {
     }
   };*/
 
-  // Display a loading indicator while fetching data
-  if (loading) {
-    return null; // Return null while loading to keep the splash screen visible
-  }
-
   // Display the onboarding screen if the app has not been launched before
   if (!hasLaunched) {
     return <Onboarding onFinish={handleFinishOnboarding} />;
@@ -144,13 +114,12 @@ export default function Index() {
     return <TermsOfService onAccept={handleAcceptTerms} onRefuse={handleRefuseTerms} />;
   }
 
-  // Exclude Antarctica and undefined/null continents
-  const continents = Array.from(new Set(data.map(country => country.continent)))
-    .filter(continent => continent && continent !== 'Antarctic');
+  // Continents array
+  const continents = ['Africa', 'Asia', 'Europe', 'Americas', 'Oceania'];
 
   // Calculate progress per continent using the saved selected countries  
   const continentProgress = continents.map(continent => {
-    const countriesInContinent = data.filter(country => country.continent === continent);
+    const countriesInContinent = countryData.filter(country => country.continent === continent);
     const selectedInContinent = countriesInContinent.filter(country =>
       savedSelectedCountries.includes(country.code)
     );
@@ -166,7 +135,7 @@ export default function Index() {
   //console.log('Continent progress:', continentProgress); // Debug log
 
   // Calculate overall progress
-  const totalCountries = data.length;
+  const totalCountries = countryData.length;
   const selectedCount = savedSelectedCountries.length;
   const overallProgress = totalCountries ? selectedCount / totalCountries : 0;
 
