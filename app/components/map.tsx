@@ -1,7 +1,7 @@
 // app/components/map.tsx
 
 import { View, StyleSheet } from 'react-native';
-import { MapView, Camera, VectorSource, FillLayer, ConstrainMode } from '@rnmapbox/maps';
+import { MapView, Camera, VectorSource, FillLayer } from '@rnmapbox/maps';
 import { useSelectedCountries } from './api/SelectedCountriesContext';
 import '@/mapboxConfig';
 
