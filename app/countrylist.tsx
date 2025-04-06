@@ -13,8 +13,13 @@ interface CountryData {
 
 export default function CountryList() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [filteredData, setFilteredData] = useState([]);
+  const [filteredData, setFilteredData] = useState<CountryData[]>([]);
   const { selectedCountries, setSelectedCountries, savedSelectedCountries, countryData } = useSelectedCountries();
+
+  // Sort and memoize the country data
+  const sortedCountryData = useMemo(() => {
+    return [...countryData].sort((a, b) => a.name.localeCompare(b.name));
+  }, [countryData]);
 
   // Combine the selected countries from the context
   const allSelectedCountries = useMemo(
@@ -22,21 +27,21 @@ export default function CountryList() {
     [savedSelectedCountries, selectedCountries]
   );
 
-  // Filter the country data based on the search query
+  // Initialize filtered data with sorted countries
   useEffect(() => {
-    setFilteredData(countryData);
-  }, [countryData]);
+    setFilteredData(sortedCountryData);
+  }, [sortedCountryData]);
 
   // Handle the search input
   const handleSearch = (query: string) => {
     setSearchQuery(query);
     if (query) {
-      const filtered = countryData.filter(country =>
+      const filtered = sortedCountryData.filter(country =>
         country.name.toLowerCase().includes(query.toLowerCase())
       );
       setFilteredData(filtered);
     } else {
-      setFilteredData(countryData);
+      setFilteredData(sortedCountryData);
     }
   };
 
@@ -47,7 +52,7 @@ export default function CountryList() {
       <CountryButton
         country={item}
         isSelected={isSelected}
-        onSelect={(country) => {
+        onSelect={(country: CountryData) => {
           if (isSelected) {
             // Remove the country from the selected list
             setSelectedCountries(prev => prev.filter(code => code !== country.code));
