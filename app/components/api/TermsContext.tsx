@@ -3,8 +3,13 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+interface TermsContextType {
+  termsAccepted: boolean;
+  setTermsAccepted: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
 // Create the terms context
-const TermsContext = createContext(null);
+const TermsContext = createContext<TermsContextType | null>(null);
 
 // Provider to manage the terms state
 export const TermsProvider = ({ children }: { children: ReactNode }) => {
