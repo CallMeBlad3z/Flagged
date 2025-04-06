@@ -3,47 +3,53 @@
 import { useState } from 'react';
 import { View, TextInput, StyleSheet, Text, Alert, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 
-interface contactUs {
+interface ContactUsForm {
   fromEmail: string;
   subject: string;
-  contactUs: string;
+  message: string;
 }
 
 const height = Dimensions.get('window').height;
 
 const ContactUs = () => {
-  const [fromEmail, setFromEmail] = useState('');
-  const [subject, setSubject] = useState('');
-  const [contactUs, setcontactUs] = useState('');
+  const [formData, setFormData] = useState<ContactUsForm>({
+    fromEmail: '',
+    subject: '',
+    message: ''
+  });
 
-  const sendEmail = async () => {
-  if (fromEmail.trim() === '' || subject.trim() === '' || contactUs.trim() === '') {
-    Alert.alert('Error', 'Please fill in all fields.');
-    return;
-  }
+  const sendEmail = async (): Promise<void> => {
+    // Validate form fields (fromEmail, subject, and message) before sending the email.
+    if (formData.fromEmail.trim() === '' || formData.subject.trim() === '' || formData.message.trim() === '') {
+      Alert.alert('Error', 'Please fill in all fields.');
+      return;
+    }
 
-  try {
-    console.log('Sending email with the following details:', { fromEmail, subject, contactUs });
-    const response = await fetch('https://flagged-app.com/api/email/contact-us', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ fromEmail, subject, contactUs }),
-    });
+    try {
+      // Log the form data before sending the email
+      //console.log('Sending email with the following details:', formData);
+
+      // Send the email to the API endpoint with the form data as JSON.
+      const response = await fetch('https://flagged-app.com/api/email/contact-us', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData), // Convert the form data to JSON before sending it to the API endpoint.
+      });
 
     const responseText = await response.text();
-    console.log('Response text:', responseText);
+    //console.log('Response text:', responseText);
 
     // Check if the response is JSON
     if (response.headers.get('content-type')?.includes('application/json')) {
       const responseData = JSON.parse(responseText);
-      console.log('Email sent successfully:', responseData);
+      //console.log('Email sent successfully:', responseData);
       Alert.alert('Success', 'Message sent successfully.');
     } else {
-      console.log('Non-JSON response:', responseText);
+      //console.log('Non-JSON response:', responseText);
       Alert.alert('Success', 'Message sent successfully.');
     }
   } catch (error) {
-    console.error('Error sending email:', error);
+    //console.error('Error sending email:', error);
     Alert.alert('Error', 'Failed to send message.');
   }
 };
@@ -61,20 +67,20 @@ const ContactUs = () => {
           <TextInput
             style={styles.input}
             placeholder="Your Email"
-            value={fromEmail}
-            onChangeText={setFromEmail}
+            value={formData.fromEmail}
+            onChangeText={(text) => setFormData({ ...formData, fromEmail: text })}
           />
           <TextInput
             style={styles.input}
             placeholder="Subject"
-            value={subject}
-            onChangeText={setSubject}
+            value={formData.subject}
+            onChangeText={(text) => setFormData({ ...formData, subject: text })}
           />
           <TextInput
             style={styles.textArea}
             placeholder="Your message here"
-            value={contactUs}
-            onChangeText={setcontactUs}
+            value={formData.message}
+            onChangeText={(text) => setFormData({ ...formData, message: text })}
             multiline
           />
         </View>
@@ -98,6 +104,9 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'space-between',
   },
+  contentContainer: {
+    flex: 1,
+  },
   pageDescription: {
     fontSize: 14,
     marginBottom: 20,
@@ -105,7 +114,6 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 44,
-    borderColor: '#ccc',
     borderWidth: 1.5,
     marginBottom: 20,
     paddingHorizontal: 12,
