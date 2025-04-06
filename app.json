@@ -74,7 +74,7 @@
       "expo-secure-store"
     ],
     "android": {
-      "package": "com.blad3z.flagged",
+      "package": "com.minimal_apps.flagged",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/app_icon.png"
       }
