@@ -9,8 +9,8 @@ interface CountryData {
   code: string;
 }
 
-// Country button props
-interface CountryButtonProps {
+// Country item props
+interface CountryItemProps {
   country: CountryData;
   isSelected: boolean;
   onSelect: (country: CountryData) => void;
